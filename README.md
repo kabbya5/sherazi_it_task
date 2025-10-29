@@ -15,7 +15,7 @@ This endpoint allows you to fetch transactions filtered by account.
 
 ### Request
 
-**Method:** `POST`  
+**Method:** `GET`  
 **URL:** `/api/transactions`  
 **Headers:**
 ```http
@@ -55,5 +55,121 @@ Code: 400 / 404 / 500
   "status": 0,
   "message": "Failed to fetch transactions.",
   "error": "Account not found or server error"
+}
+```
+
+**Method:** `POST`  
+**URL:** `/api/transactions`  
+**Headers:**
+```http
+Content-Type: application/json
+Accept: application/json
+
+  {
+    "pay_mode":"credit",
+    "date": "2025-10-30",
+    "type": "purchase",
+    "amount": 1500,
+    "note": "Office supplies purchase"
+  }
+
+Sale
+{
+    "pay_mode": "cash",
+    "date": "2025-10-30",
+    "type": "purchase",
+    "amount": 1400,
+    "note": "Sale product"
+  }
+
+
+{
+  "status": 1,
+  "message": "Transactions fetched successfully",
+  "data":{
+    "status": 1,
+    "message": "Transaction added successfully",
+    "data": {
+        "debit_transaction": {
+            "account_id": 3,
+            "date": "2025-10-30",
+            "type": "debit",
+            "amount": 1500,
+            "note": "Office supplies purchase",
+            "updated_at": "2025-10-29T20:18:19.000000Z",
+            "created_at": "2025-10-29T20:18:19.000000Z",
+            "id": 11,
+            "account": {
+                "id": 3,
+                "code": "AC-003",
+                "name": "Purchase",
+                "description": "Purchase account for recording all purchases",
+                "balance": 1500,
+                "created_at": null,
+                "updated_at": "2025-10-29T20:18:19.000000Z",
+                "transactions": [
+                    {
+                        "id": 11,
+                        "date": "2025-10-30",
+                        "account_id": 3,
+                        "amount": "1500.00",
+                        "type": "debit",
+                        "note": "Office supplies purchase",
+                        "created_at": "2025-10-29T20:18:19.000000Z",
+                        "updated_at": "2025-10-29T20:18:19.000000Z"
+                    }
+                ]
+            }
+        },
+        "credit_transaction": {
+            "account_id": 6,
+            "date": "2025-10-30",
+            "type": "credit",
+            "amount": 1500,
+            "note": "Office supplies purchase",
+            "updated_at": "2025-10-29T20:18:19.000000Z",
+            "created_at": "2025-10-29T20:18:19.000000Z",
+            "id": 12,
+            "account": {
+                "id": 6,
+                "code": "AC-006",
+                "name": "Accounts Payable",
+                "description": "Money to be paid to suppliers",
+                "balance": -1500,
+                "created_at": null,
+                "updated_at": "2025-10-29T20:18:19.000000Z",
+                "transactions": [
+                    {
+                        "id": 1,
+                        "date": "1994-04-02",
+                        "account_id": 6,
+                        "amount": "1071.00",
+                        "type": "debit",
+                        "note": "Delectus nisi facere exercitationem aperiam sed nulla.",
+                        "created_at": "2025-10-29T18:37:24.000000Z",
+                        "updated_at": "2025-10-29T18:37:24.000000Z"
+                    },
+                    {
+                        "id": 12,
+                        "date": "2025-10-30",
+                        "account_id": 6,
+                        "amount": "1500.00",
+                        "type": "credit",
+                        "note": "Office supplies purchase",
+                        "created_at": "2025-10-29T20:18:19.000000Z",
+                        "updated_at": "2025-10-29T20:18:19.000000Z"
+                    }
+                ]
+            }
+        }
+    }
+}
+Error Response:
+
+Code: 400 / 404 / 500
+{
+  "status": 0,
+  "message": "Transaction failed.",
+  "error": "server error message"
 }
 ```
