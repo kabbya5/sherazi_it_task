@@ -1,59 +1,175 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+### 🗄️ Database Configuration
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sherazi_it_task
+DB_USERNAME=root
+DB_PASSWORD=
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## API Endpoint: `api/transactions`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This endpoint allows you to fetch transactions filtered by account.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Request
 
-## Learning Laravel
+**Method:** `GET`  
+**URL:** `/api/transactions`  
+**Headers:**
+```http
+Content-Type: application/json
+Accept: application/json
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+{
+  "account_id": 2
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+{
+  "status": 1,
+  "message": "Transactions fetched successfully",
+  "data": [
+    {
+      "id": 101,
+      "account_id": 2,
+      "type": "debit",
+      "amount": 500.00,
+      "date": "2025-10-30",
+      "description": "Payment received"
+    },
+    {
+      "id": 102,
+      "account_id": 2,
+      "type": "credit",
+      "amount": 200.00,
+      "date": "2025-10-30",
+      "description": "Invoice paid"
+    }
+  ]
+}
+Error Response:
 
-## Laravel Sponsors
+Code: 400 / 404 / 500
+{
+  "status": 0,
+  "message": "Failed to fetch transactions.",
+  "error": "Account not found or server error"
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Method:** `POST`  
+**URL:** `/api/transactions`  
+**Headers:**
+```http
+Content-Type: application/json
+Accept: application/json
 
-### Premium Partners
+  {
+    "pay_mode":"credit",
+    "date": "2025-10-30",
+    "type": "purchase",
+    "amount": 1500,
+    "note": "Office supplies purchase"
+  }
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Sale
+{
+    "pay_mode": "cash",
+    "date": "2025-10-30",
+    "type": "purchase",
+    "amount": 1400,
+    "note": "Sale product"
+  }
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+{
+  "status": 1,
+  "message": "Transactions fetched successfully",
+  "data":{
+    "status": 1,
+    "message": "Transaction added successfully",
+    "data": {
+        "debit_transaction": {
+            "account_id": 3,
+            "date": "2025-10-30",
+            "type": "debit",
+            "amount": 1500,
+            "note": "Office supplies purchase",
+            "updated_at": "2025-10-29T20:18:19.000000Z",
+            "created_at": "2025-10-29T20:18:19.000000Z",
+            "id": 11,
+            "account": {
+                "id": 3,
+                "code": "AC-003",
+                "name": "Purchase",
+                "description": "Purchase account for recording all purchases",
+                "balance": 1500,
+                "created_at": null,
+                "updated_at": "2025-10-29T20:18:19.000000Z",
+                "transactions": [
+                    {
+                        "id": 11,
+                        "date": "2025-10-30",
+                        "account_id": 3,
+                        "amount": "1500.00",
+                        "type": "debit",
+                        "note": "Office supplies purchase",
+                        "created_at": "2025-10-29T20:18:19.000000Z",
+                        "updated_at": "2025-10-29T20:18:19.000000Z"
+                    }
+                ]
+            }
+        },
+        "credit_transaction": {
+            "account_id": 6,
+            "date": "2025-10-30",
+            "type": "credit",
+            "amount": 1500,
+            "note": "Office supplies purchase",
+            "updated_at": "2025-10-29T20:18:19.000000Z",
+            "created_at": "2025-10-29T20:18:19.000000Z",
+            "id": 12,
+            "account": {
+                "id": 6,
+                "code": "AC-006",
+                "name": "Accounts Payable",
+                "description": "Money to be paid to suppliers",
+                "balance": -1500,
+                "created_at": null,
+                "updated_at": "2025-10-29T20:18:19.000000Z",
+                "transactions": [
+                    {
+                        "id": 1,
+                        "date": "1994-04-02",
+                        "account_id": 6,
+                        "amount": "1071.00",
+                        "type": "debit",
+                        "note": "Delectus nisi facere exercitationem aperiam sed nulla.",
+                        "created_at": "2025-10-29T18:37:24.000000Z",
+                        "updated_at": "2025-10-29T18:37:24.000000Z"
+                    },
+                    {
+                        "id": 12,
+                        "date": "2025-10-30",
+                        "account_id": 6,
+                        "amount": "1500.00",
+                        "type": "credit",
+                        "note": "Office supplies purchase",
+                        "created_at": "2025-10-29T20:18:19.000000Z",
+                        "updated_at": "2025-10-29T20:18:19.000000Z"
+                    }
+                ]
+            }
+        }
+    }
+}
+Error Response:
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Code: 400 / 404 / 500
+{
+  "status": 0,
+  "message": "Transaction failed.",
+  "error": "server error message"
+}
+```
