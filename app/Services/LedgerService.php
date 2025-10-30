@@ -92,7 +92,7 @@ class LedgerService {
         return [$debit, $credit];
     }
 
-    private function updateBalance(Transaction $transaction): void {
+    public function updateBalance(Transaction $transaction): void {
         $account = $transaction->account;
 
         if(!$account){

@@ -56,11 +56,6 @@ class AccountSeeder extends Seeder
             ],
             [
                 'code' => 'AC-009',
-                'name' => 'Discount',
-                'description' => 'Discounts allowed or received in transactions',
-            ],
-            [
-                'code' => 'AC-010',
                 'name' => 'Sales Revenue',
                 'Description' => 'Sales Revenue',
             ],

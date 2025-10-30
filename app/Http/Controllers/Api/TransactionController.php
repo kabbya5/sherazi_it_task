@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Facades\Ledger;
 use App\Http\Controllers\Controller;
+use App\Models\Account;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -43,6 +44,23 @@ class TransactionController extends Controller
                 'status'  => 0,
                 'message' => 'Transaction failed.',
                 'error'   => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function report(Account $account){
+        try{
+            $transactions = Ledger::getReport($account->id);
+
+            return response()->json([
+                'status' => 1,
+                'transactions' => $transactions,
+            ]);
+        }catch (\Throwable $error) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Failed to fetch transactions.',
+                'error' => $error->getMessage(), // optional, remove in production
             ], 500);
         }
     }

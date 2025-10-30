@@ -4,8 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Account;
 use App\Models\Transaction;
-use App\Services\TransactionService;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Services\LedgerService;
 use Illuminate\Database\Seeder;
 
 
@@ -15,11 +14,11 @@ class TransactionSeeder extends Seeder
      * Run the database seeds.
      */
 
-    private $transactionService;
+    private $ledgerService;
 
-    public function __construct(TransactionService $transactionService)
+    public function __construct(LedgerService $ledgerService)
     {
-        $this->transactionService = $transactionService;
+        $this->ledgerService = $ledgerService;
     }
 
     public function run(): void
@@ -41,7 +40,7 @@ class TransactionSeeder extends Seeder
                 'debit' => ['Purchase'],
                 'credit' => ['Accounts Payable', 'Cash'],
             ],
-            'Rent' => [
+            'Rent Expense' => [
                 'debit' => ['Rent Expense'],
                 'credit' => ['Cash'],
             ],
@@ -71,8 +70,8 @@ class TransactionSeeder extends Seeder
 
         $accountArray = Account::all()->keyBy('name');
 
-        $chankSize = 10;
-        $total = 20;
+        $chankSize = 500;
+        $total = 5000;
 
         for($i = 0; $i <= $total; $i += $chankSize){
 
@@ -86,15 +85,15 @@ class TransactionSeeder extends Seeder
                 $account = $accountArray[$accountName] ?? null;
 
                 if($account){
-                    $this->transactionService->addTransaction(
-                        $account->id,
-                        date('Y-m-d'),
-                        $type,
-                        $transaction->amount,
-                        $transaction->note,
-                    );
+                    $opositeTransaction = $transaction->create([
+                        'account_id' => $account->id,
+                        'date' => date('Y-m-d'),
+                        'type' =>  $type,
+                        'amount' => $transaction->amount,
+                        'note' => $account->code . ' '. $account->name,
+                    ]);
 
-                    $this->transactionService->updateBalance($transaction, $transaction->type);
+                    $this->ledgerService->updateBalance($opositeTransaction);
                 }
             });
         }

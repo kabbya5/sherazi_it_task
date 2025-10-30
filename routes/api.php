@@ -11,5 +11,5 @@ Route::get('/user', function (Request $request) {
 Route::controller(TransactionController::class)->group(function(){
     Route::get('/transactions','index');
     Route::post('/transactions', 'store');
-    Route::get('/ledger/report/','index');
+    Route::get('/ledger/report/{account}','report');
 });
