@@ -48,8 +48,9 @@ Accept: application/json
     }
   ]
 }
-Error Response:
-
+```
+##3 Error Response:
+```
 Code: 400 / 404 / 500
 {
   "status": 0,
@@ -76,13 +77,14 @@ Code: 400 / 404 / 500
         }
     ]
 }
-
+```
 ### Error Response Example
+```
 {
     "status": 0,
     "message": "Failed to fetch transactions."
 }
-
+```
 **Method:** `POST`  
 **URL:** `/api/transactions`  
 **Headers:**
@@ -97,8 +99,9 @@ Accept: application/json
     "amount": 1500,
     "note": "Office supplies purchase"
   }
-
-Sale
+```
+### Sale
+```
 {
     "pay_mode": "cash",
     "date": "2025-10-30",
@@ -189,8 +192,10 @@ Sale
         }
     }
 }
-Error Response:
 
+```
+### Error Response:
+```
 Code: 400 / 404 / 500
 {
   "status": 0,
