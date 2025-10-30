@@ -1,4 +1,4 @@
-### 🗄️ Database Configuration
+### Database Configuration
 
 ```env
 DB_CONNECTION=mysql
@@ -57,6 +57,31 @@ Code: 400 / 404 / 500
   "error": "Account not found or server error"
 }
 ```
+## Ledger Report
+**Method:** `GET`  
+**URL:** `/api/ledger/report/1`  
+
+### **Response Example (Success)**
+```json
+{
+    "status": 1,
+    "transactions": [
+        {
+            "account_id": 1,
+            "account_name": "Cash",
+            "account_code": "AC-001",
+            "balance": "-6066833.00",
+            "total_debit": "5976648.00",
+            "total_credit": "11509457.00"
+        }
+    ]
+}
+
+### Error Response Example
+{
+    "status": 0,
+    "message": "Failed to fetch transactions."
+}
 
 **Method:** `POST`  
 **URL:** `/api/transactions`  
